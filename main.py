@@ -16,7 +16,7 @@ base_dir = os.path.join(os.path.dirname(zip_file), 'flower_photos')
 
 # PARAMETERS
 classes = ['roses', 'daisy', 'dandelion', 'sunflowers', 'tulips']
-dataset_split_percentage = 0.75 # percentage of images for training
+dataset_split_percentage = 0.75
 epochs = 100
 batch_size = 64
 IMG_SHAPE = 224
@@ -24,7 +24,7 @@ learning_rate = 0.001
 timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 modelName = "VGG19finetune_" + "augmentation_" + "E" + str(epochs) + "_LR" + str(learning_rate) + "_" + timestamp
 log_dir = os.path.join("logs", "fit", modelName)
-checkpoint_path = os.path.join("checkpoints", modelName, "model.ckpt")
+checkpoint_path = os.path.join("checkpoints", modelName, "model.keras")
 
 # STRATIFIED SPLIT OF DATASET AND DIRECTORY PREPARATION
 for cl in classes:

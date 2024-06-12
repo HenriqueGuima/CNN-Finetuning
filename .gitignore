@@ -1,0 +1,3 @@
+#Prevent logs directory from being pushed to git
+logs/*
+checkpoints/*
