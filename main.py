@@ -16,11 +16,11 @@ base_dir = os.path.join(os.path.dirname(zip_file), 'flower_photos')
 
 # PARAMETERS
 classes = ['roses', 'daisy', 'dandelion', 'sunflowers', 'tulips']
-dataset_split_percentage = 0.75
-epochs = 100
-batch_size = 64
+dataset_split_percentage = 0.8
+epochs = 5
+batch_size = 128
 IMG_SHAPE = 224
-learning_rate = 0.001
+learning_rate = 0.01
 timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 modelName = "VGG19finetune_" + "augmentation_" + "E" + str(epochs) + "_LR" + str(learning_rate) + "_" + timestamp
 log_dir = os.path.join("logs", "fit", modelName)
@@ -68,6 +68,7 @@ train_data_gen = image_gen_train.flow_from_directory(
     class_mode='sparse')
 
 image_gen_val = ImageDataGenerator(rescale=1./255)
+
 val_data_gen = image_gen_val.flow_from_directory(
     batch_size=batch_size,
     directory=val_dir,
@@ -113,9 +114,8 @@ test_loss, test_acc = model.evaluate(val_data_gen)
 print(f"Validation Accuracy: {test_acc:.4f}")
 
 # PREDICTIONS
-val_data_gen.reset()
-test_pred_raw = model.predict(val_data_gen)
-test_pred = np.argmax(test_pred_raw, axis=1)
+test_pred_raw = model.predict(val_data_gen, verbose=1)
+test_pred = np.argmax(test_pred_raw, axis=-1)
 test_labels = val_data_gen.classes
 
 # METRICS
