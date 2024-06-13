@@ -22,7 +22,7 @@ batch_size = 128
 IMG_SHAPE = 224
 learning_rate = 0.01
 timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-modelName = "VGG19finetune_" + "augmentation_" + "E" + str(epochs) + "_LR" + str(learning_rate) + "_" + timestamp
+modelName = "ResNetfinetune_" + "augmentation_" + "E" + str(epochs) + "_LR" + str(learning_rate) + "_" + timestamp
 log_dir = os.path.join("logs", "fit", modelName)
 checkpoint_path = os.path.join("checkpoints", modelName, "model.keras")
 
@@ -75,13 +75,13 @@ val_data_gen = image_gen_val.flow_from_directory(
     target_size=(IMG_SHAPE, IMG_SHAPE),
     class_mode='sparse')
 
-# LOAD VGG19 MODEL
-modelVGG19 = tf.keras.applications.vgg19.VGG19(weights='imagenet', include_top=False, input_shape=(IMG_SHAPE, IMG_SHAPE, 3))
-modelVGG19.trainable = False
+# LOAD RESNET MODEL
+modelResNet = tf.keras.applications.ResNet50(weights='imagenet', include_top=False, input_shape=(IMG_SHAPE, IMG_SHAPE, 3))
+modelResNet.trainable = False
 
 # NEW LAEYRS
 model = tf.keras.Sequential([
-    modelVGG19,
+    modelResNet,
     tf.keras.layers.GlobalAveragePooling2D(),
     tf.keras.layers.Dense(5, activation='softmax')
 ])
